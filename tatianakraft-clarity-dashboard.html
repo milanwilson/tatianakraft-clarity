@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tatiana Kraft — Microsoft Clarity report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#1e2444; --orange:#ff6b2c; --slate:#7c83b0;
+    --surface:#ffffff; --border:#e8eaf2; --page:#f7f8fc;
+    --good:#2f9e6b; --watch:#d39111; --bad:#d24b4b;
+    --bar:#ffe2d3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--page);color:var(--ink);line-height:1.55;padding:32px 20px;}
+  .wrap{max-width:1080px;margin:0 auto;}
+  .eyebrow{font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);}
+  .dot{color:var(--orange);}
+
+  /* cover */
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:38px 40px;margin-bottom:26px;}
+  .cover h1{font-family:'Poppins',sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;margin:10px 0 6px;}
+  .cover .sub{color:var(--slate);font-size:15px;font-weight:500;}
+  .cover .meta{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:22px;border-top:1px solid var(--border);}
+  .cover .meta div{font-size:13px;}
+  .cover .meta span{display:block;font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin-top:3px;}
+
+  /* page block */
+  .block{background:var(--surface);border:1px solid var(--border);border-radius:18px;margin-bottom:22px;overflow:hidden;}
+  .page-bar{display:flex;align-items:center;gap:14px;padding:18px 26px;border-bottom:1px solid var(--border);}
+  .chip{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;color:#fff;background:var(--orange);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .page-bar h2{font-family:'Poppins',sans-serif;font-size:18px;font-weight:700;flex:1;}
+  .page-bar .src{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);}
+  .body{padding:26px;}
+
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;}
+  .kpi{border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:#fcfcfe;}
+  .kpi .lbl{font-size:12px;color:var(--slate);font-weight:600;margin-bottom:8px;}
+  .kpi .val{font-family:'Poppins',sans-serif;font-size:28px;font-weight:700;letter-spacing:-.01em;}
+  .kpi .note{font-size:11px;color:var(--slate);margin-top:6px;}
+
+  /* table */
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th{text-align:left;font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);padding:10px 12px;border-bottom:2px solid var(--border);}
+  td{padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  td.num{text-align:right;font-family:'Poppins',sans-serif;font-weight:600;font-variant-numeric:tabular-nums;}
+  .barcell{position:relative;}
+  .barcell .bar{position:absolute;left:0;top:50%;transform:translateY(-50%);height:64%;background:var(--bar);border-radius:4px;z-index:0;}
+  .barcell span{position:relative;z-index:1;}
+  .camp{font-size:12px;color:var(--slate);}
+  .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.04em;}
+  .tag.disp{background:#fde8df;color:#c2531f;}
+  .tag.dir{background:#e6eef9;color:#3b6cae;}
+  .tag.ref{background:#eef0f7;color:#5a6090;}
+
+  .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}}
+  .chart-wrap{position:relative;height:300px;}
+
+  /* quality bars */
+  .qrow{display:grid;grid-template-columns:120px 1fr 70px;gap:12px;align-items:center;margin-bottom:13px;font-size:13px;}
+  .qrow .qlbl{font-weight:600;}
+  .qtrack{background:#eef0f7;border-radius:6px;height:14px;overflow:hidden;}
+  .qfill{height:100%;border-radius:6px;}
+  .qval{text-align:right;font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;}
+
+  /* anomalies */
+  .flag{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);font-size:14px;}
+  .flag:last-child{border-bottom:none;}
+  .flag .ft{flex-shrink:0;width:74px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding-top:2px;}
+  .ft.dobre{color:var(--good);} .ft.pozor{color:var(--watch);} .ft.problem{color:var(--bad);}
+
+  /* commentary */
+  .komentar p{margin-bottom:14px;font-size:14.5px;}
+  .komentar p:last-child{margin-bottom:0;}
+
+  .foot{text-align:center;color:var(--slate);font-size:12px;margin-top:8px;padding:14px;}
+
+  @media print{body{background:#fff;padding:0;}.block,.cover{border-color:#ddd;break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="eyebrow">fokus<span class="dot">.</span>studio &nbsp;·&nbsp; Microsoft Clarity report</div>
+    <h1>Tatiana Kraft<span class="dot">.</span></h1>
+    <div class="sub">Analýza správania návštevníkov webu tatianakraft.com</div>
+    <div class="meta">
+      <div>Obdobie<span>4. – 11. 6. 2026</span></div>
+      <div>Rozsah<span>posledných 7 dní</span></div>
+      <div>Zdroj dát<span>Microsoft Clarity</span></div>
+      <div>Doména<span>tatianakraft.com</span></div>
+    </div>
+  </div>
+
+  <!-- 01 PREHLAD -->
+  <div class="block">
+    <div class="page-bar"><div class="chip">01</div><h2>Základné metriky</h2><div class="src">Clarity · Overview</div></div>
+    <div class="body">
+      <div class="kpis">
+        <div class="kpi"><div class="lbl">Relácie</div><div class="val">467</div></div>
+        <div class="kpi"><div class="lbl">Používatelia</div><div class="val">455</div></div>
+        <div class="kpi"><div class="lbl">Zobrazenia stránok</div><div class="val">499</div><div class="note">1,07 na reláciu</div></div>
+        <div class="kpi"><div class="lbl">Priemerná hĺbka scrollu</div><div class="val" style="color:var(--bad)">24,95 %</div></div>
+        <div class="kpi"><div class="lbl">Priemerný aktívny čas</div><div class="val" style="color:var(--bad)">21,8 s</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 ZDROJE -->
+  <div class="block">
+    <div class="page-bar"><div class="chip">02</div><h2>Zdroje návštevnosti</h2><div class="src">Clarity · UTM / Channel</div></div>
+    <div class="body">
+      <table>
+        <thead><tr><th>Zdroj</th><th>Médium</th><th>Kampaň / reklama</th><th>Kanál</th><th style="text-align:right">Relácie</th></tr></thead>
+        <tbody id="srcBody"></tbody>
+      </table>
+      <p class="camp" style="margin-top:14px">UTM parameter obsahuje názov kampane, nie samostatný názov reklamy (ad name). Display návštevnosť pochádza celá z jednej Facebook kampane <strong>AKV | Traffic - LPV | CZ | služby | reels + carousel</strong>, čo je 246 relácií, teda 53 % celkovej návštevnosti.</p>
+    </div>
+  </div>
+
+  <!-- 03 KVALITA -->
+  <div class="block">
+    <div class="page-bar"><div class="chip">03</div><h2>Kvalita návštevnosti podľa kanála</h2><div class="src">Clarity · Engagement</div></div>
+    <div class="body">
+      <div class="grid2">
+        <div>
+          <div class="eyebrow" style="margin-bottom:14px">Priemerná hĺbka scrollu</div>
+          <div id="scrollBars"></div>
+        </div>
+        <div class="chart-wrap"><canvas id="channelPie"></canvas></div>
+      </div>
+      <p class="camp" style="margin-top:18px">Display kanál (dominantný objemom) má hĺbku scrollu 7,46 % a aktívny čas 1,76 s na reláciu. Direct návštevnosť má hĺbku scrollu 47,43 % a aktívny čas 23,91 s.</p>
+    </div>
+  </div>
+
+  <!-- 04 STRANKY -->
+  <div class="block">
+    <div class="page-bar"><div class="chip">04</div><h2>Najnavštevovanejšie stránky</h2><div class="src">Clarity · Pages</div></div>
+    <div class="body">
+      <table>
+        <thead><tr><th>Stránka</th><th style="text-align:right">Zobrazenia</th></tr></thead>
+        <tbody id="pageBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 05 SPRAVANIE -->
+  <div class="block">
+    <div class="page-bar"><div class="chip">05</div><h2>Signály správania</h2><div class="src">Clarity · Insights</div></div>
+    <div class="body">
+      <div class="kpis">
+        <div class="kpi"><div class="lbl">Dead clicks</div><div class="val" style="color:var(--watch)">78</div><div class="note">kliky bez reakcie</div></div>
+        <div class="kpi"><div class="lbl">Quick backs</div><div class="val">12</div><div class="note">rýchly návrat späť</div></div>
+        <div class="kpi"><div class="lbl">Rage clicks</div><div class="val" style="color:var(--good)">0</div></div>
+        <div class="kpi"><div class="lbl">Excessive scroll</div><div class="val" style="color:var(--good)">0</div></div>
+        <div class="kpi"><div class="lbl">JavaScript chyby</div><div class="val">6</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 ANOMALIE -->
+  <div class="block">
+    <div class="page-bar"><div class="chip">06</div><h2>Anomálie a upozornenia</h2><div class="src">Analytická vrstva</div></div>
+    <div class="body">
+      <div class="flag"><div class="ft problem">problém</div><div>Stránka <strong>/sluzby/</strong> zhromažďuje väčšinu zo 78 dead clicks. V nahrávkach návštevníci klikajú na názvy a obrázky služieb (Microneedling, Čištění pleti, Zjistit více), klik nereaguje a relácia končí po 4 až 34 sekundách.</div></div>
+      <div class="flag"><div class="ft problem">problém</div><div>Display kanál (246 relácií) má hĺbku scrollu 7,46 % a aktívny čas 1,76 s. Kampaň je nastavená na cieľ Traffic / LPV, optimalizuje na preklik, nie na akciu na webe.</div></div>
+      <div class="flag"><div class="ft pozor">pozor</div><div>Pomer zobrazení na reláciu je 1,07. Návštevníci takmer nikdy neprejdú na druhú stránku.</div></div>
+      <div class="flag"><div class="ft pozor">pozor</div><div>Na slovenskej verzii formulára (/sk/) sa v jednej nahrávke opakovane klikalo na pole <strong>Kontaktný formulár</strong> bez reakcie.</div></div>
+      <div class="flag"><div class="ft dobre">dobré</div><div>Žiadne rage clicks ani excessive scroll. JavaScript chýb je 6, čo je zanedbateľné pri 499 zobrazeniach.</div></div>
+    </div>
+  </div>
+
+  <!-- 07 KOMENTAR -->
+  <div class="block">
+    <div class="page-bar"><div class="chip">07</div><h2>Komentár</h2><div class="src">Zhrnutie</div></div>
+    <div class="body komentar">
+      <p>Web zaznamenal 467 relácií a 455 používateľov. Display kanál z jednej Facebook kampane priniesol 246 relácií, teda 53 % celkovej návštevnosti, a smeruje na stránku /sluzby/. Druhým najväčším zdrojom je priama návštevnosť so 143 reláciami.</p>
+      <p>Kvalita sa medzi kanálmi výrazne líši. Display má priemernú hĺbku scrollu 7,46 % a aktívny čas 1,76 s na reláciu, priama návštevnosť 47,43 % a 23,91 s. Celkový priemer hĺbky scrollu je 24,95 % a aktívny čas 21,8 s. Pomer zobrazení na reláciu je 1,07.</p>
+      <p>Na stránke /sluzby/ je 78 dead clicks. Nahrávky ukazujú, že návštevníci klikajú na názvy a obrázky služieb, ktoré nereagujú, a relácia končí po 4 až 34 sekundách. Na slovenskej verzii formulára sa opakovane klikalo na pole bez odozvy. Rage clicks a excessive scroll sú na nule, JavaScript chýb je 6.</p>
+    </div>
+  </div>
+
+  <div class="foot">fokus<span class="dot">.</span>studio · vygenerované z Microsoft Clarity dát · 4. – 11. 6. 2026</div>
+
+</div>
+
+<script>
+const DATA = {
+  sources:[
+    {src:"facebook",med:"cpc",camp:"AKV | Traffic - LPV | CZ | služby | reels + carousel",ch:"Display",chCls:"disp",n:246},
+    {src:"tatianakraft.com",med:"direct",camp:"—",ch:"Direct",chCls:"dir",n:143},
+    {src:"Direct",med:"—",camp:"—",ch:"Other",chCls:"ref",n:45},
+    {src:"tatianakraft.com",med:"direct",camp:"— (ContactUs)",ch:"Direct",chCls:"dir",n:10},
+    {src:"tatianakraft.fokus.studio",med:"direct",camp:"— (interná)",ch:"Direct",chCls:"dir",n:7},
+    {src:"Direct",med:"—",camp:"— (ContactUs)",ch:"Other",chCls:"ref",n:5},
+    {src:"l.instagram.com",med:"referral",camp:"—",ch:"Referral",chCls:"ref",n:4},
+    {src:"google",med:"cpc",camp:"—",ch:"PaidSearch",chCls:"dir",n:4},
+    {src:"facebook.com",med:"referral",camp:"—",ch:"Referral",chCls:"ref",n:3}
+  ],
+  pages:[
+    {u:"/sluzby/",n:269},{u:"/ (domov)",n:87},{u:"/rezervacni-formular/",n:39},
+    {u:"/kontakt/",n:21},{u:"/sluzba/masaze-obliceje/",n:8},{u:"/sk/kontakt/",n:7},
+    {u:"/sk/",n:7},{u:"/o-mne/",n:7}
+  ],
+  quality:[
+    {ch:"Direct",scroll:47.43,time:23.91},
+    {ch:"Other",scroll:31.8,time:18.55},
+    {ch:"OrganicSearch",scroll:28,time:31.79},
+    {ch:"Referral",scroll:20.43,time:9.64},
+    {ch:"Display",scroll:7.46,time:1.76},
+    {ch:"PaidSearch",scroll:6,time:14.09},
+    {ch:"Social",scroll:5,time:11.28}
+  ],
+  channelMix:[{ch:"Display",n:246},{ch:"Direct",n:162},{ch:"Other",n:54},{ch:"Referral",n:7},{ch:"PaidSearch",n:3},{ch:"OrganicSearch/Social",n:4}]
+};
+
+// sources table
+const sMax = Math.max(...DATA.sources.map(s=>s.n));
+document.getElementById('srcBody').innerHTML = DATA.sources.map(s=>`
+  <tr>
+    <td>${s.src}</td><td class="camp">${s.med}</td>
+    <td class="camp">${s.camp}</td>
+    <td><span class="tag ${s.chCls}">${s.ch}</span></td>
+    <td class="num barcell"><div class="bar" style="width:${s.n/sMax*100}%"></div><span>${s.n}</span></td>
+  </tr>`).join('');
+
+// pages table
+const pMax = Math.max(...DATA.pages.map(p=>p.n));
+document.getElementById('pageBody').innerHTML = DATA.pages.map(p=>`
+  <tr><td>${p.u}</td>
+  <td class="num barcell"><div class="bar" style="width:${p.n/pMax*100}%"></div><span>${p.n}</span></td></tr>`).join('');
+
+// scroll quality bars
+function qcolor(v){return v>=35?'var(--good)':v>=15?'var(--watch)':'var(--bad)';}
+document.getElementById('scrollBars').innerHTML = DATA.quality.map(q=>`
+  <div class="qrow">
+    <div class="qlbl">${q.ch}</div>
+    <div class="qtrack"><div class="qfill" style="width:${q.scroll}%;background:${qcolor(q.scroll)}"></div></div>
+    <div class="qval">${q.scroll.toString().replace('.',',')} %</div>
+  </div>`).join('');
+
+// channel pie
+new Chart(document.getElementById('channelPie'),{
+  type:'doughnut',
+  data:{labels:DATA.channelMix.map(c=>c.ch),
+    datasets:[{data:DATA.channelMix.map(c=>c.n),
+      backgroundColor:['#ff6b2c','#1e2444','#7c83b0','#b9c0db','#d8dcea','#eef0f7'],borderWidth:2,borderColor:'#fff'}]},
+  options:{plugins:{legend:{position:'bottom',labels:{font:{family:'Plus Jakarta Sans',size:11},padding:12,boxWidth:12}},
+    title:{display:true,text:'Relácie podľa kanála',font:{family:'Poppins',size:13,weight:'600'},color:'#1e2444',padding:{bottom:10}}},
+    cutout:'58%'}
+});
+</script>
+</body>
+</html>
