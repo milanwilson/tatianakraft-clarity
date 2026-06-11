@@ -20,31 +20,23 @@
   .wrap{max-width:1080px;margin:0 auto;}
   .eyebrow{font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);}
   .dot{color:var(--orange);}
-
-  /* cover */
   .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:38px 40px;margin-bottom:26px;}
   .cover h1{font-family:'Poppins',sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;margin:10px 0 6px;}
   .cover .sub{color:var(--slate);font-size:15px;font-weight:500;}
   .cover .meta{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:22px;border-top:1px solid var(--border);}
   .cover .meta div{font-size:13px;}
   .cover .meta span{display:block;font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin-top:3px;}
-
-  /* page block */
   .block{background:var(--surface);border:1px solid var(--border);border-radius:18px;margin-bottom:22px;overflow:hidden;}
   .page-bar{display:flex;align-items:center;gap:14px;padding:18px 26px;border-bottom:1px solid var(--border);}
   .chip{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;color:#fff;background:var(--orange);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .page-bar h2{font-family:'Poppins',sans-serif;font-size:18px;font-weight:700;flex:1;}
   .page-bar .src{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);}
   .body{padding:26px;}
-
-  /* KPI */
   .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;}
   .kpi{border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:#fcfcfe;}
   .kpi .lbl{font-size:12px;color:var(--slate);font-weight:600;margin-bottom:8px;}
   .kpi .val{font-family:'Poppins',sans-serif;font-size:28px;font-weight:700;letter-spacing:-.01em;}
   .kpi .note{font-size:11px;color:var(--slate);margin-top:6px;}
-
-  /* table */
   table{width:100%;border-collapse:collapse;font-size:13.5px;}
   th{text-align:left;font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);padding:10px 12px;border-bottom:2px solid var(--border);}
   td{padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
@@ -58,37 +50,26 @@
   .tag.disp{background:#fde8df;color:#c2531f;}
   .tag.dir{background:#e6eef9;color:#3b6cae;}
   .tag.ref{background:#eef0f7;color:#5a6090;}
-
   .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center;}
   @media(max-width:760px){.grid2{grid-template-columns:1fr;}}
   .chart-wrap{position:relative;height:300px;}
-
-  /* quality bars */
   .qrow{display:grid;grid-template-columns:120px 1fr 70px;gap:12px;align-items:center;margin-bottom:13px;font-size:13px;}
   .qrow .qlbl{font-weight:600;}
   .qtrack{background:#eef0f7;border-radius:6px;height:14px;overflow:hidden;}
   .qfill{height:100%;border-radius:6px;}
   .qval{text-align:right;font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;}
-
-  /* anomalies */
   .flag{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);font-size:14px;}
   .flag:last-child{border-bottom:none;}
   .flag .ft{flex-shrink:0;width:74px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding-top:2px;}
   .ft.dobre{color:var(--good);} .ft.pozor{color:var(--watch);} .ft.problem{color:var(--bad);}
-
-  /* commentary */
   .komentar p{margin-bottom:14px;font-size:14.5px;}
   .komentar p:last-child{margin-bottom:0;}
-
   .foot{text-align:center;color:var(--slate);font-size:12px;margin-top:8px;padding:14px;}
-
   @media print{body{background:#fff;padding:0;}.block,.cover{border-color:#ddd;break-inside:avoid;}}
 </style>
 </head>
 <body>
 <div class="wrap">
-
-  <!-- COVER -->
   <div class="cover">
     <div class="eyebrow">fokus<span class="dot">.</span>studio &nbsp;·&nbsp; Microsoft Clarity report</div>
     <h1>Tatiana Kraft<span class="dot">.</span></h1>
@@ -100,8 +81,6 @@
       <div>Doména<span>tatianakraft.com</span></div>
     </div>
   </div>
-
-  <!-- 01 PREHLAD -->
   <div class="block">
     <div class="page-bar"><div class="chip">01</div><h2>Základné metriky</h2><div class="src">Clarity · Overview</div></div>
     <div class="body">
@@ -114,8 +93,6 @@
       </div>
     </div>
   </div>
-
-  <!-- 02 ZDROJE -->
   <div class="block">
     <div class="page-bar"><div class="chip">02</div><h2>Zdroje návštevnosti</h2><div class="src">Clarity · UTM / Channel</div></div>
     <div class="body">
@@ -126,8 +103,6 @@
       <p class="camp" style="margin-top:14px">UTM parameter obsahuje názov kampane, nie samostatný názov reklamy (ad name). Display návštevnosť pochádza celá z jednej Facebook kampane <strong>AKV | Traffic - LPV | CZ | služby | reels + carousel</strong>, čo je 246 relácií, teda 53 % celkovej návštevnosti.</p>
     </div>
   </div>
-
-  <!-- 03 KVALITA -->
   <div class="block">
     <div class="page-bar"><div class="chip">03</div><h2>Kvalita návštevnosti podľa kanála</h2><div class="src">Clarity · Engagement</div></div>
     <div class="body">
@@ -141,8 +116,6 @@
       <p class="camp" style="margin-top:18px">Display kanál (dominantný objemom) má hĺbku scrollu 7,46 % a aktívny čas 1,76 s na reláciu. Direct návštevnosť má hĺbku scrollu 47,43 % a aktívny čas 23,91 s.</p>
     </div>
   </div>
-
-  <!-- 04 STRANKY -->
   <div class="block">
     <div class="page-bar"><div class="chip">04</div><h2>Najnavštevovanejšie stránky</h2><div class="src">Clarity · Pages</div></div>
     <div class="body">
@@ -152,8 +125,6 @@
       </table>
     </div>
   </div>
-
-  <!-- 05 SPRAVANIE -->
   <div class="block">
     <div class="page-bar"><div class="chip">05</div><h2>Signály správania</h2><div class="src">Clarity · Insights</div></div>
     <div class="body">
@@ -166,8 +137,6 @@
       </div>
     </div>
   </div>
-
-  <!-- 06 ANOMALIE -->
   <div class="block">
     <div class="page-bar"><div class="chip">06</div><h2>Anomálie a upozornenia</h2><div class="src">Analytická vrstva</div></div>
     <div class="body">
@@ -178,8 +147,6 @@
       <div class="flag"><div class="ft dobre">dobré</div><div>Žiadne rage clicks ani excessive scroll. JavaScript chýb je 6, čo je zanedbateľné pri 499 zobrazeniach.</div></div>
     </div>
   </div>
-
-  <!-- 07 KOMENTAR -->
   <div class="block">
     <div class="page-bar"><div class="chip">07</div><h2>Komentár</h2><div class="src">Zhrnutie</div></div>
     <div class="body komentar">
@@ -188,11 +155,14 @@
       <p>Na stránke /sluzby/ je 78 dead clicks. Nahrávky ukazujú, že návštevníci klikajú na názvy a obrázky služieb, ktoré nereagujú, a relácia končí po 4 až 34 sekundách. Na slovenskej verzii formulára sa opakovane klikalo na pole bez odozvy. Rage clicks a excessive scroll sú na nule, JavaScript chýb je 6.</p>
     </div>
   </div>
-
+  <div class="block">
+    <div class="page-bar"><div class="chip">08</div><h2>Stratégia PPC reklám</h2><div class="src">Canva board</div></div>
+    <div class="body" style="padding:0;">
+      <iframe src="https://canva.link/9bjyldn6apimv0g" style="width:100%;height:600px;border:none;display:block;border-radius:0 0 18px 18px;" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
   <div class="foot">fokus<span class="dot">.</span>studio · vygenerované z Microsoft Clarity dát · 4. – 11. 6. 2026</div>
-
 </div>
-
 <script>
 const DATA = {
   sources:[
@@ -222,8 +192,6 @@ const DATA = {
   ],
   channelMix:[{ch:"Display",n:246},{ch:"Direct",n:162},{ch:"Other",n:54},{ch:"Referral",n:7},{ch:"PaidSearch",n:3},{ch:"OrganicSearch/Social",n:4}]
 };
-
-// sources table
 const sMax = Math.max(...DATA.sources.map(s=>s.n));
 document.getElementById('srcBody').innerHTML = DATA.sources.map(s=>`
   <tr>
@@ -232,14 +200,10 @@ document.getElementById('srcBody').innerHTML = DATA.sources.map(s=>`
     <td><span class="tag ${s.chCls}">${s.ch}</span></td>
     <td class="num barcell"><div class="bar" style="width:${s.n/sMax*100}%"></div><span>${s.n}</span></td>
   </tr>`).join('');
-
-// pages table
 const pMax = Math.max(...DATA.pages.map(p=>p.n));
 document.getElementById('pageBody').innerHTML = DATA.pages.map(p=>`
   <tr><td>${p.u}</td>
   <td class="num barcell"><div class="bar" style="width:${p.n/pMax*100}%"></div><span>${p.n}</span></td></tr>`).join('');
-
-// scroll quality bars
 function qcolor(v){return v>=35?'var(--good)':v>=15?'var(--watch)':'var(--bad)';}
 document.getElementById('scrollBars').innerHTML = DATA.quality.map(q=>`
   <div class="qrow">
@@ -247,8 +211,6 @@ document.getElementById('scrollBars').innerHTML = DATA.quality.map(q=>`
     <div class="qtrack"><div class="qfill" style="width:${q.scroll}%;background:${qcolor(q.scroll)}"></div></div>
     <div class="qval">${q.scroll.toString().replace('.',',')} %</div>
   </div>`).join('');
-
-// channel pie
 new Chart(document.getElementById('channelPie'),{
   type:'doughnut',
   data:{labels:DATA.channelMix.map(c=>c.ch),
